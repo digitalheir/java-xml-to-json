@@ -1,0 +1,28 @@
+<!DOCTYPE myRoot PUBLIC "PublicIdentifier" "URIreference"[
+        <!ENTITY entity_1 "Has been ëxpÄnded">
+        <!ENTITY entity_system SYSTEM "sys.ext">
+        <!ENTITY name_public PUBLIC "entity_public_id" "uri.ext">
+        <!NOTATION notation-system SYSTEM "notation-id-system">
+        <!NOTATION NoTaTiOn-PuBLiC PUBLIC "notation-id-public">
+        ]>
+<myRoot xml:id="root" xml:lang="en">
+    some text
+    <!--
+    In comments we can use ]]>
+    <
+    &,
+',
+and ",
+but %MyParamEntity; will not be expanded-->
+    <![CDATA[
+      Character Data block <!-- <,
+& ' " -->  *and* %MyParamEntity;
+      ]]>
+    <?linebreak?>
+    <deeper xmlns="http://example.com" how-deep="very-deep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://example.com ">☠☠☠randomtext☠☠☠
+        <even
+                lol:my-attr="just an attribute"
+                xmlns:lol='http://example.com' deeper="true">&amp;</even>
+    </deeper>
+</myRoot>
