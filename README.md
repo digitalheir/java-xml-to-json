@@ -14,21 +14,42 @@ than their XML brothers.
 
 ## Usage
 ```java
+import com.google.gson.Gson;
+import org.freehenquet.xml.DomHelper;
+import org.freehenquet.xml.TerseJson;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+
+public class Main {
+    private static final boolean COMPACT_WHITE_SPACE = true;
+
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        String json = TerseJson.from("<root>" +
+        String xml = ("<root>" +
                 "<!-- thïs ïs à cómmënt. -->" +
-                "  <el ampersand=\"&amp;\">" +
+                "  <el ampersand=\"    a &amp;    b\">" +
                 "    <selfClosing/>" +
                 "  </el>" +
                 "</root>");
+
+        // Parse XML to DOM
+        Document doc = DomHelper.parse(xml);
+
+        // Conver DOM to terse representation, and convert to JSON
+        Object terseDoc = new TerseJson(COMPACT_WHITE_SPACE).convert(doc);
+        String json = new Gson().toJson(terseDoc);
+
         System.out.println(json);
     }
+}
 ```
 
 produces
 
 ```json
-[9,[[1,"root",[],[[8," thïs ïs à cómmënt. "],[3,"  "],[1,"el",[[2,"ampersand","\u0026"]],[[3,"    "],[1,"selfClosing",[],[]],[3,"  "]]]]]]]
+[9,[{"1":"root","3":[[8," thïs ïs à cómmënt. "]," ",{"1":"el","2":[["ampersand","    a \u0026    b"]],"3":[" ",{"1":"selfClosing"}," "]}]}]]
 ```
 
 ## Details
@@ -57,7 +78,7 @@ Translates to a fixed length JSON array:
 |index|type|description|
 |---|---|---|
 |0|int|[9](#node-types)|
-|1|Children; can be any JSON element|
+|1|array|Children; can be any JSON element|
 
 ### Element
 Translates to a JSON object, keyed by integers:
