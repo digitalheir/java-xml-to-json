@@ -25,3 +25,91 @@ produces
 ```json
 [9,[[1,"root",[],[[8," thïs ïs à cómmënt. "],[3,"  "],[1,"el",[[2,"ampersand","\u0026"]],[[3,"    "],[1,"selfClosing",[],[]],[3,"  "]]]]]]]
 ```
+
+## Details
+
+### Node types
+```json
+{ 
+    "1": "element",
+    "2": "attribute",
+    "3": "text",
+    "4": "cdata_section",
+    "5": "entity_reference",
+    "6": "entity",
+    "7": "processing_instruction",
+    "8": "comment",
+    "9": "document",
+    "10": "document_type",
+    "11": "document_fragment",
+    "12": "notation"
+}
+```
+
+### Document
+Translates to a fixed length JSON array:
+
+|index|type|description|
+|---|---|---|
+|0|int|[9](#node-types)|
+|1|Children; can be any JSON element|
+
+### Element
+Translates to a JSON object, keyed by integers:
+
+|key|type|description|optional/required|
+|---|---|---|---|
+|"1"|String|tag name|required|
+|"2"|Array of [key, value] arrays|attributes|optional|
+|"3"|Array|children; any JSON element|optional|
+
+### Attribute
+Translates to a fixed length JSON array:
+
+|index|type|description|
+|---|---|---|
+|0|String|attribute name|
+|1|String|attribute value|
+
+### Text
+Text nodes are converted to JSON strings
+
+### Comment
+Translates to a fixed length JSON array:
+
+|index|type|description|
+|---|---|---|
+|0|int|[8](#node-types)|
+|1|String|Comment text|
+
+### CDATA
+Translates to a fixed length JSON array:
+
+|index|type|description|
+|---|---|---|
+|0|int|[4](#node-types)|
+|1|String|attribute value|
+
+### Processing instruction
+Translates to a fixed length JSON array:
+
+|index|type|description|
+|---|---|---|
+|0|targ|[7](#node-types)|
+|1|String|target|
+|1|String|content|
+
+### Entity Reference
+Not yet implemented
+
+### Entity 
+Not yet implemented
+
+### Document type
+Not yet implemented
+
+### Document fragment
+Not yet implemented
+
+### Notation
+Not yet implemented

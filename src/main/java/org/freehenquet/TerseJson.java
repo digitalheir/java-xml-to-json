@@ -1,6 +1,7 @@
 package org.freehenquet;
 
 import com.google.gson.Gson;
+import org.freehenquet.xml.TerseNode;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -50,6 +51,6 @@ public class TerseJson {
     }
 
     private static String from(Node n) {
-        return new Gson().toJson(new TerseNode(n));
+        return new Gson().toJson(TerseNode.convert(n));
     }
 }
