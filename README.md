@@ -1,7 +1,34 @@
 # XML to terse JSON
-This is a project to convert XML documents to and fro JSON. It does this by taking a disciplined approach
+[![GitHub version](https://badge.fury.io/gh/digitalheir%2Fxml-to-json.svg)](http://badge.fury.io/gh/digitalheir%2Fxml-to-json)
+[![Build Status](https://travis-ci.org/digitalheir/xml-to-json.svg?branch=master)](https://travis-ci.org/digitalheir/xml-to-json)
+
+This is a project to convert XML documents to and from JSON. It does this by taking a disciplined approach
  to create a terse JSON structure. The library has support for node types such as comments and processing instructions,
  but not for DTDs, so it is possible that conversion will produce an error.
+
+## JavaDoc
+JavaDoc is available at http://phil.uu.nl/~trompper/xml-to-json-0.2.0-javadoc/
+
+## Usage
+Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releases/latest) or grab from Maven:
+
+```xml
+<dependencies>
+        <dependency>
+            <groupId>org.freehenquet</groupId>
+            <artifactId>xml-to-json</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+</dependencies>
+```
+
+or Gradle:
+```groovy
+compile 'org.freehenquet:xml-to-json:0.2.0'
+```
+
+## Installation
+
 
 ## Motivation
 There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
