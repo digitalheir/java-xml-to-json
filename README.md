@@ -1,7 +1,7 @@
 # XML to terse JSON
 This is a project to convert XML documents to and fro JSON. It does this by taking a disciplined approach
- to create a terse JSON structure. The library had support for node types such as comments and processing instructions,
- but not for DTDs, so it is possible that the conversion is lossy.
+ to create a terse JSON structure. The library has support for node types such as comments and processing instructions,
+ but not for DTDs, so it is possible that conversion will produce an error.
 
 ## Motivation
 There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
