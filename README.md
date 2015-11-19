@@ -2,9 +2,10 @@
 [![GitHub version](https://badge.fury.io/gh/digitalheir%2Fjava-xml-to-json.svg)](http://badge.fury.io/gh/digitalheir%2Fjava-xml-to-json)
 [![Build Status](https://travis-ci.org/digitalheir/java-xml-to-json.svg?branch=master)](https://travis-ci.org/digitalheir/java-xml-to-json)
 
-This is a project to convert XML documents to and from JSON. It does this by taking a disciplined approach
+This is a project to convert XML documents to JSON. It does this by taking a disciplined approach
  to create a terse JSON structure. The library has support for node types such as comments and processing instructions,
- but not for DTDs, so it is possible that conversion will produce an error.
+ but not for DTDs, so it is possible that conversion will produce an error. Conversions are also *not* guaranteed to be
+ complete. You may lose some information in the process.
 
 ## JavaDoc
 JavaDoc is available at http://phil.uu.nl/~trompper/xml-to-json-0.2.0-javadoc/
