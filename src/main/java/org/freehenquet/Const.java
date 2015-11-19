@@ -1,7 +1,6 @@
 package org.freehenquet;
 
 import com.google.gson.Gson;
-import org.freehenquet.xml.TerseNode;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -13,25 +12,7 @@ import java.util.Locale;
 /**
  * Created by Maarten on 18/11/2015.
  */
-public class TerseJson {
-    /**
-     * @param xml Well-formed XML string
-     * @return JSON string
-     */
-    public static String from(String xml) throws ParserConfigurationException, IOException, SAXException {
-        InputStream is = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
-        return from(is);
-    }
-
-    /**
-     * @param is {@link InputStream} to a well-formed XML string
-     * @return JSON string
-     */
-    public static String from(InputStream is) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = dBuilder.parse(is);
-        return from(doc);
-    }
+public class Const {
 
     public static final String[] nodeTypes = new String[13];
 
@@ -50,7 +31,4 @@ public class TerseJson {
         nodeTypes[12] = "NOTATION".toLowerCase(Locale.US);
     }
 
-    private static String from(Node n) {
-        return new Gson().toJson(TerseNode.convert(n));
-    }
 }

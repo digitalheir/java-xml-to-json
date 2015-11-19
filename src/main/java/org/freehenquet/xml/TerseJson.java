@@ -6,19 +6,25 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Maarten on 19/11/2015.
  */
-public class TerseNode {
+public class TerseJson {
+    public boolean compactWhitespace = false;
 
-    private TerseNode() {
-        throw new IllegalStateException();
+    public TerseJson() {
+
     }
 
-    public static Object[] getChildren(Node n) {
+    public TerseJson(boolean compactWhitespace) {
+        this.compactWhitespace = compactWhitespace;
+    }
+
+    public Object[] getChildren(Node n) {
         NodeList ns = n.getChildNodes();
         switch (n.getNodeType()) {
             case Node.CDATA_SECTION_NODE:
@@ -47,28 +53,28 @@ public class TerseNode {
         }
     }
 
-    public static Object convert(Node n) {
+    public Object convert(Node n) {
         switch (n.getNodeType()) {
             case Node.CDATA_SECTION_NODE:
             case Node.COMMENT_NODE:
                 // [nodeType, nodeVal]
-                return new Object[]{n.getNodeType(), n.getNodeValue()};
+                return new Object[]{n.getNodeType(), getNodeValue(n)};
             case Node.PROCESSING_INSTRUCTION_NODE:
                 // [nodeType, nodeTarget,nodeVal]
-                return new Object[]{n.getNodeType(), n.getNodeName(), n.getNodeValue()};
+                return new Object[]{n.getNodeType(), n.getNodeName(), getNodeValue(n)};
             case Node.DOCUMENT_NODE:
                 // [nodeType, nodeChildren]
                 return new Object[]{n.getNodeType(), getChildren(n)};
             case Node.TEXT_NODE:
                 //Return just the string
-                return n.getNodeValue();
+                return getNodeValue(n);
             case Node.ATTRIBUTE_NODE:
                 // [key, value]
                 Attr attribute = (Attr) n;
-                return new String[]{attribute.getNodeName(), attribute.getValue()};
+                return new String[]{attribute.getNodeName(), getNodeValue(n)};
             case Node.ELEMENT_NODE:
                 // {"1":tagName,"2":[attributes],"3":children}
-                JSONObject obj = new JSONObject();
+                Map<String, Object> obj = new HashMap<String, Object>();
                 // Add tag name
                 obj.put("1", n.getNodeName());
 
@@ -77,7 +83,7 @@ public class TerseNode {
                 if (attributes != null && attributes.length > 0) obj.put("2", attributes);
 
                 //Add children if there are any
-                Object[] children = TerseNode.getChildren(n);
+                Object[] children = getChildren(n);
                 if (children != null && children.length > 0) obj.put("3", children);
                 return obj;
             case Node.DOCUMENT_FRAGMENT_NODE:
@@ -90,37 +96,18 @@ public class TerseNode {
         }
     }
 
-    public static String getNodeNameOrString(Node n) {
-        switch (n.getNodeType()) {
-            case Node.CDATA_SECTION_NODE:
-            case Node.COMMENT_NODE:
-            case Node.TEXT_NODE:
-                //These nodes only contain text
-                return n.getNodeValue();
-            case Node.DOCUMENT_NODE:
-            case Node.DOCUMENT_FRAGMENT_NODE:
-                return null;
-            case Node.ELEMENT_NODE:
-                // tagname
-            case Node.PROCESSING_INSTRUCTION_NODE:
-                //same as pi.target
-            case Node.ENTITY_REFERENCE_NODE:
-                // referenced entity name
-            case Node.ATTRIBUTE_NODE:
-                //attr key
-            case Node.ENTITY_NODE:
-                //entity name
-            case Node.NOTATION_NODE:
-                //notation name
-            case Node.DOCUMENT_TYPE_NODE:
-                //same as doctype.name
-                return n.getNodeName();
-            default:
-                throw new Error("not implemented");
+    private String getNodeValue(Node n) {
+        String val = n.getNodeValue();
+        if (n.getNodeType() == Node.TEXT_NODE && compactWhitespace && val.matches("\\s\\s+")) {
+            val = val.replaceAll("\\s\\s+", " ");
         }
+        if (n.getNodeType() == Node.ATTRIBUTE_NODE && compactWhitespace && val.matches("(^\\s)|(\\s$)")) {
+            val = val.trim(); // Trim attribute values
+        }
+        return val;
     }
 
-    public static String[][] getAttributes(Node n) {
+    public String[][] getAttributes(Node n) {
         NamedNodeMap attrs = n.getAttributes();
         String[][] attributes = new String[attrs.getLength()][];
         for (int i = 0; i < attrs.getLength(); i++) {

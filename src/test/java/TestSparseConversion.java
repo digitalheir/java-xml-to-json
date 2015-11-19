@@ -1,4 +1,5 @@
-import org.freehenquet.TerseJson;
+import org.freehenquet.Const;
+import org.freehenquet.xml.TerseJson;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -13,7 +14,7 @@ public class TestSparseConversion {
     @Test
     public void test() throws IOException, SAXException, ParserConfigurationException {
         InputStream is = TestSparseConversion.class.getClassLoader().getResourceAsStream("test.xml");
-        System.out.println(TerseJson.from(is).toString());
+        System.out.println(new TerseJson().toString());
     }
 
     static String convertStreamToString(java.io.InputStream is) {

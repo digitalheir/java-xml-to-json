@@ -10,12 +10,12 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        String json = TerseJson.from("<root>" +
-                "<!-- thïs ïs à cómmënt. -->" +
-                "  <el ampersand=\"&amp;\">" +
-                "    <selfClosing/>" +
-                "  </el>" +
-                "</root>");
-        System.out.println(json);
+//        String json = Const.from("<root>" +
+//                "<!-- thïs ïs à cómmënt. -->" +
+//                "  <el ampersand=\"&amp;\">" +
+//                "    <selfClosing/>" +
+//                "  </el>" +
+//                "</root>");
+//        System.out.println(json);
     }
 }

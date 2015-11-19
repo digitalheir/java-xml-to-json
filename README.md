@@ -5,7 +5,12 @@ This is a project to convert XML documents to and fro JSON. It does this by taki
 
 ## Motivation
 There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
-The problem with most XML-to-JSON implementations is that we lose a lot of information about the order.
+The problem with most XML-to-JSON implementations is that we lose a lot of information about ordering / attributes / whatever.
+
+Another motivation was to have a light-weight serialization of XML, since complete transforms 
+[tend to be wordy](https://github.com/digitalheir/ruby-xml-to-json). We 
+trade off  some readability for a reduction in bytes. Resulting JSON strings are typically slightly larger in bytesize 
+than their XML brothers.
 
 ## Usage
 ```java
