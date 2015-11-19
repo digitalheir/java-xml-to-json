@@ -1,3 +1,10 @@
+<!DOCTYPE myRoot PUBLIC "PublicIdentifier" "URIreference"[
+        <!ENTITY entity_1 "Has been ëxpÄnded">
+        <!ENTITY entity_system SYSTEM "sys.ext">
+        <!ENTITY name_public PUBLIC "entity_public_id" "uri.ext">
+        <!NOTATION notation-system SYSTEM "notation-id-system">
+        <!NOTATION NoTaTiOn-PuBLiC PUBLIC "notation-id-public">
+        ]>
 [
 <!ELEMENT div1 (head,
 (p | list | note)*,
