@@ -1,27 +1,25 @@
 package org.freehenquet.xml;
 
-import org.json.JSONObject;
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Maarten on 19/11/2015.
  */
 public class TerseJson {
-    public boolean compactWhitespace = false;
+    public WhiteSpace whitespace = WhiteSpace.Preserve;
 
     public TerseJson() {
 
     }
 
-    public TerseJson(boolean compactWhitespace) {
-        this.compactWhitespace = compactWhitespace;
+    public TerseJson(WhiteSpace whitespace) {
+        this.whitespace = whitespace;
     }
 
     public Object[] getChildren(Node n) {
@@ -38,11 +36,14 @@ public class TerseJson {
                 throw new IllegalStateException();
             case Node.DOCUMENT_NODE:
             case Node.ELEMENT_NODE:
-                Object[] children = new Object[(ns.getLength())];
+                List<Object> children = new ArrayList<Object>(ns.getLength());
                 for (int i = 0; i < ns.getLength(); i++) {
-                    children[i] = convert(ns.item(i));
+                    Object node = convert(ns.item(i));
+                    if (node != null) {
+                        children.add(node);
+                    }
                 }
-                return children;
+                return children.toArray(new Object[children.size()]);
             case Node.DOCUMENT_FRAGMENT_NODE:
             case Node.ENTITY_REFERENCE_NODE:
             case Node.ENTITY_NODE:
@@ -73,19 +74,17 @@ public class TerseJson {
                 Attr attribute = (Attr) n;
                 return new String[]{attribute.getNodeName(), getNodeValue(n)};
             case Node.ELEMENT_NODE:
-                // {"1":tagName,"2":[attributes],"3":children}
-                Map<String, Object> obj = new HashMap<String, Object>();
-                // Add tag name
-                obj.put("1", n.getNodeName());
-
-                //Only elements have attributes
-                String[][] attributes = getAttributes(n);
-                if (attributes != null && attributes.length > 0) obj.put("2", attributes);
-
-                //Add children if there are any
+                // [nodeType,tagName[,attributes,[children]]
+                Object[] attrs = getAttributes(n);
                 Object[] children = getChildren(n);
-                if (children != null && children.length > 0) obj.put("3", children);
-                return obj;
+
+                if (children.length <= 0 && attrs.length <= 0) {
+                    return new Object[]{n.getNodeType(), n.getNodeName()};
+                } else if (attrs.length <= 0) {
+                    return new Object[]{n.getNodeType(), n.getNodeName(), children};
+                } else {
+                    return new Object[]{n.getNodeType(), n.getNodeName(), children, attrs};
+                }
             case Node.DOCUMENT_FRAGMENT_NODE:
             case Node.ENTITY_REFERENCE_NODE:
             case Node.ENTITY_NODE:
@@ -98,11 +97,24 @@ public class TerseJson {
 
     private String getNodeValue(Node n) {
         String val = n.getNodeValue();
-        if (n.getNodeType() == Node.TEXT_NODE && compactWhitespace && val.matches("\\s\\s+")) {
-            val = val.replaceAll("\\s\\s+", " ");
-        }
-        if (n.getNodeType() == Node.ATTRIBUTE_NODE && compactWhitespace && val.matches("(^\\s)|(\\s$)")) {
-            val = val.trim(); // Trim attribute values
+
+        switch (whitespace) {
+            case Preserve:
+                break;
+
+            case Ignore:
+                if (n.getNodeType() == Node.TEXT_NODE && val.matches("^\\s*$")) {
+                    return null;
+                }
+            case Compact:
+                if (n.getNodeType() == Node.TEXT_NODE) {
+                    val = val.replaceAll("\\s\\s+", " ");
+                }
+                //if (n.getNodeType() == Node.ATTRIBUTE_NODE) {
+                val = val.replaceAll("(^\\s+)|(\\s+$)", ""); // Trim attribute values
+                //}
+            default:
+                break;
         }
         return val;
     }
@@ -114,5 +126,9 @@ public class TerseJson {
             attributes[i] = (String[]) convert(attrs.item(i));
         }
         return attributes;
+    }
+
+    public enum WhiteSpace {
+        Preserve, Compact, Ignore
     }
 }

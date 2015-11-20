@@ -24,9 +24,11 @@ public class TestWhiteSpaceReduction {
                 "</root>");
 
         Object[] noWhitespaceReduction = (Object[]) new TerseJson().convert(doc);
-        Object[] whitespaceReduction = (Object[]) new TerseJson(true).convert(doc);
+        Object[] whitespaceReduction = (Object[]) new TerseJson(TerseJson.WhiteSpace.Compact).convert(doc);
+        Object[] ignoreWhitespace = (Object[]) new TerseJson(TerseJson.WhiteSpace.Ignore).convert(doc);
 
         System.out.println(new Gson().toJson(noWhitespaceReduction));
         System.out.println(new Gson().toJson(whitespaceReduction));
+        System.out.println(new Gson().toJson(ignoreWhitespace));
     }
 }

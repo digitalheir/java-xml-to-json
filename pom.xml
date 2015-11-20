@@ -6,7 +6,7 @@
 
     <groupId>org.freehenquet</groupId>
     <artifactId>xml-to-json</artifactId>
-    <version>0.2</version>
+    <version>0.3.0</version>
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>

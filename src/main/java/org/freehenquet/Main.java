@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Main {
-    private static final boolean COMPACT_WHITE_SPACE = true;
+    private static final TerseJson.WhiteSpace COMPACT_WHITE_SPACE = TerseJson.WhiteSpace.Compact;
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
         String xml = ("<root>" +

@@ -8,7 +8,7 @@ This is a project to convert XML documents to JSON. It does this by taking a dis
  complete. You may lose some information in the process.
 
 ## JavaDoc
-JavaDoc is available at http://phil.uu.nl/~trompper/xml-to-json-0.2.0-javadoc/
+JavaDoc is available at http://phil.uu.nl/~trompper/xml-to-json-0.3.0-javadoc/
 
 ## Usage
 Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releases/latest) or grab from Maven:
@@ -18,14 +18,14 @@ Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releas
         <dependency>
             <groupId>org.freehenquet</groupId>
             <artifactId>xml-to-json</artifactId>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </dependency>
 </dependencies>
 ```
 
 or Gradle:
 ```groovy
-compile 'org.freehenquet:xml-to-json:0.2.0'
+compile 'org.freehenquet:xml-to-json:0.3.0'
 ```
 
 ## Installation
@@ -109,13 +109,14 @@ Translates to a fixed length JSON array:
 |1|array|Children; can be any JSON element|
 
 ### Element
-Translates to a JSON object, keyed by integers:
+Translates to a variable length JSON array:
 
-|key|type|description|optional/required|
-|---|---|---|---|
-|"1"|String|tag name|required|
-|"2"|Array of [key, value] arrays|attributes|optional|
-|"3"|Array|children; any JSON element|optional|
+|index|type|description|
+|---|---|---|
+|0|int|[1](#node-types)|
+|1|String|tag name|
+|2|array|children as any JSON element; may be missing if element does not have children **and** no attributes|
+|3|array|attributes as [key, value]; may be missing if element does not have attributes|
 
 ### Attribute
 Translates to a fixed length JSON array:

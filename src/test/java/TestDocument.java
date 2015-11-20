@@ -26,11 +26,5 @@ public class TestDocument {
         Assert.assertEquals(children.length, 2);
 
         System.out.println(new Gson().toJson(terseDoc));
-
-        System.out.println("{ ");
-        for (int i = 1; i < Const.nodeTypes.length; i++) {
-            System.out.println("    \""+i + "\": \"" + Const.nodeTypes[i]+"\",");
-        }
-        System.out.println("}");
     }
 }

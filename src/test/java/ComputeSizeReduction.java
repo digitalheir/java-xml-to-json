@@ -16,10 +16,8 @@ public class ComputeSizeReduction {
         String url = "https://repository.officiele-overheidspublicaties.nl/bwb/BWBR0032203/2014-01-25_0/xml/BWBR0032203_2014-01-25_0.xml";
         computeReduction(url);
 
-
         computeReduction("http://data.rechtspraak.nl/uitspraken/content?id=ECLI:NL:CBB:2010:BN1294");
 
-//        System.out.println(json);
     }
 
     private static void computeReduction(String url) throws ParserConfigurationException, IOException, SAXException {
@@ -30,8 +28,14 @@ public class ComputeSizeReduction {
         System.out.println("JSON w/o whitespace reduction : " + json.getBytes().length/1024 + " kilobytes");
         System.out.println("Thats a reduction of " + (100 - (json.getBytes().length*100) / xml.getBytes().length) + "%");
 
-        json = new Gson().toJson(new TerseJson(true).convert(DomHelper.parse(xml)));
+        json = new Gson().toJson(new TerseJson(TerseJson.WhiteSpace.Compact).convert(DomHelper.parse(xml)));
         System.out.println("JSON w/ whitespace reduction : " + json.getBytes().length/1024 + " kilobytes");
         System.out.println("Thats a reduction of " + (100 - (json.getBytes().length*100) / xml.getBytes().length) + "%");
+
+        json = new Gson().toJson(new TerseJson(TerseJson.WhiteSpace.Ignore).convert(DomHelper.parse(xml)));
+        System.out.println("JSON w/ ignore whitespace: " + json.getBytes().length/1024 + " kilobytes");
+        System.out.println("Thats a reduction of " + (100 - (json.getBytes().length*100) / xml.getBytes().length) + "%");
+
+//        System.out.println(json);
     }
 }
