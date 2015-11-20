@@ -84,20 +84,42 @@ produces
 
 ### Node types
 ```json
-{ 
-    "1": "element",
-    "2": "attribute",
-    "3": "text",
-    "4": "cdata_section",
-    "5": "entity_reference",
-    "6": "entity",
-    "7": "processing_instruction",
-    "8": "comment",
-    "9": "document",
-    "10": "document_type",
-    "11": "document_fragment",
-    "12": "notation"
+var nodeTypes = { 
+    1: "element",
+    2: "attribute",
+    3: "text",
+    4: "cdata_section",
+    5: "entity_reference",
+    6: "entity",
+    7: "processing_instruction",
+    8: "comment",
+    9: "document",
+    10: "document_type",
+    11: "document_fragment",
+    12: "notation"
 }
+```
+
+### Utility functions
+```js
+var getChildren = function (node) {
+    if (node[0].match(/element|document/){
+        return node[1];
+    }else {
+        return undefined;
+    }
+};
+
+var getName = function (node){
+    if (node[0].match(/element/)){
+      return node[2];
+    }else if(typeof node[0]=="string"){
+        return node[0];
+    }else{
+        return undefined;
+    }
+}
+
 ```
 
 ### Document
@@ -114,8 +136,8 @@ Translates to a variable length JSON array:
 |index|type|description|
 |---|---|---|
 |0|int|[1](#node-types)|
-|1|String|tag name|
-|2|array|children as any JSON element; may be missing if element does not have children **and** no attributes|
+|1|array|children as any JSON element; may be missing if element does not have children **and** no attributes|
+|2|String|tag name|
 |3|array|attributes as [key, value]; may be missing if element does not have attributes|
 
 ### Attribute
@@ -152,7 +174,7 @@ Translates to a fixed length JSON array:
 |---|---|---|
 |0|targ|[7](#node-types)|
 |1|String|target|
-|1|String|content|
+|2|String|content|
 
 ### Entity Reference
 Not yet implemented

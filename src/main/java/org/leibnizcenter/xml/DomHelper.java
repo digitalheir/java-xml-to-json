@@ -1,4 +1,4 @@
-package org.freehenquet.xml;
+package org.leibnizcenter.xml;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

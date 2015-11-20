@@ -1,6 +1,6 @@
 import com.google.gson.Gson;
-import org.freehenquet.xml.DomHelper;
-import org.freehenquet.xml.TerseJson;
+import org.leibnizcenter.xml.DomHelper;
+import org.leibnizcenter.xml.TerseJson;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

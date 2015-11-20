@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.freehenquet</groupId>
+    <groupId>org.leibnizcenter</groupId>
     <artifactId>xml-to-json</artifactId>
-    <version>0.3.1-SNAPSHOT</version>
+    <version>0.3.0</version>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://github.com/digitalheir/java-xml-to-json/blob/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Maarten Trompper</name>
+            <email>m.f.a.trompper@uva.nl</email>
+            <organization>Leibniz Center for Law</organization>
+            <organizationUrl>http://www.leibnizcenter.org/</organizationUrl>
+        </developer>
+    </developers>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Library for converting XML to JSON</description>
+    <url>https://github.com/digitalheir/java-xml-to-json</url>
 
     <scm>
         <connection>scm:git:git@github.com:digitalheir/java-xml-to-json.git</connection>
         <developerConnection>scm:git:git@github.com:digitalheir/java-xml-to-json.git
         </developerConnection>
         <url>git@github.com:digitalheir/java-xml-to-json.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>

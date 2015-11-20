@@ -1,4 +1,4 @@
-package org.freehenquet.xml;
+package org.leibnizcenter.xml;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;

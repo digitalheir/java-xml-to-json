@@ -1,8 +1,6 @@
 import com.google.gson.Gson;
-import org.freehenquet.Const;
-import org.freehenquet.xml.DomHelper;
-import org.freehenquet.xml.TerseJson;
-import org.junit.Assert;
+import org.leibnizcenter.xml.DomHelper;
+import org.leibnizcenter.xml.TerseJson;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

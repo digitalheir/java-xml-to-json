@@ -1,15 +1,10 @@
-package org.freehenquet;
+package org.leibnizcenter;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 /**
  * Created by Maarten on 18/11/2015.

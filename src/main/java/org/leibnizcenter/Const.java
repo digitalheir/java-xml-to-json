@@ -1,12 +1,5 @@
-package org.freehenquet;
+package org.leibnizcenter;
 
-import com.google.gson.Gson;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.*;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 /**
