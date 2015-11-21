@@ -136,8 +136,8 @@ Translates to a variable length JSON array:
 |index|type|description|
 |---|---|---|
 |0|int|[1](#node-types)|
-|1|array|children as any JSON element; may be missing if element does not have children **and** no attributes|
-|2|String|tag name|
+|1|String|tag name|
+|2|array|children as any JSON element; may be missing if element does not have children **and** no attributes|
 |3|array|attributes as [key, value]; may be missing if element does not have attributes|
 
 ### Attribute
