@@ -25,7 +25,9 @@ public class Main {
         Document doc = DomHelper.parse(xml);
 
         // Convert DOM to terse representation, and convert to JSON
-        TerseJson.Options opts = TerseJson.Options.with(COMPACT_WHITE_SPACE);
+        TerseJson.Options opts = TerseJson.Options
+                .with(COMPACT_WHITE_SPACE)
+                .and(TerseJson.ErrorBehaviour.ThrowAllErrors);
 
         Object terseDoc = new TerseJson(opts).convert(doc);
         String json = new Gson().toJson(terseDoc);

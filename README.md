@@ -17,7 +17,7 @@ Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releas
 ```xml
 <dependencies>
         <dependency>
-            <groupId>org.freehenquet</groupId>
+            <groupId>org.leibnizcenter</groupId>
             <artifactId>xml-to-json</artifactId>
             <version>0.8.0</version>
         </dependency>
@@ -26,7 +26,7 @@ Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releas
 
 or Gradle:
 ```groovy
-compile 'org.freehenquet:xml-to-json:0.8.0'
+compile 'org.leibnizcenter:xml-to-json:0.8.0'
 ```
 
 ## Installation
@@ -44,8 +44,9 @@ than their XML brothers.
 ## Usage
 ```java
 import com.google.gson.Gson;
-import org.freehenquet.xml.DomHelper;
-import org.freehenquet.xml.TerseJson;
+import org.leibnizcenter.xml.DomHelper;
+import org.leibnizcenter.xml.NotImplemented;
+import org.leibnizcenter.xml.TerseJson;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -53,9 +54,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Main {
-    private static final boolean COMPACT_WHITE_SPACE = true;
+    private static final TerseJson.WhitespaceBehaviour COMPACT_WHITE_SPACE = TerseJson.WhitespaceBehaviour.Compact;
 
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, NotImplemented {
         String xml = ("<root>" +
                 "<!-- thïs ïs à cómmënt. -->" +
                 "  <el ampersand=\"    a &amp;    b\">" +
@@ -66,8 +67,12 @@ public class Main {
         // Parse XML to DOM
         Document doc = DomHelper.parse(xml);
 
-        // Conver DOM to terse representation, and convert to JSON
-        Object terseDoc = new TerseJson(COMPACT_WHITE_SPACE).convert(doc);
+        // Convert DOM to terse representation, and convert to JSON
+        TerseJson.Options opts = TerseJson.Options
+                .with(COMPACT_WHITE_SPACE)
+                .and(TerseJson.ErrorBehaviour.ThrowAllErrors);
+
+        Object terseDoc = new TerseJson(opts).convert(doc);
         String json = new Gson().toJson(terseDoc);
 
         System.out.println(json);
