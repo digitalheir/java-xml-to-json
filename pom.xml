@@ -5,7 +5,7 @@
 
     <groupId>org.leibnizcenter</groupId>
     <artifactId>xml-to-json</artifactId>
-    <version>0.3.0</version>
+    <version>0.8.0</version>
 
     <licenses>
         <license>
@@ -37,6 +37,11 @@
     </scm>
 
     <dependencies>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xerces</artifactId>
+            <version>2.4.0</version>
+        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

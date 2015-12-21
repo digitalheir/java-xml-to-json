@@ -1,8 +1,11 @@
+package org.leibnizcenter.xml.to.json;
+
 import com.google.gson.Gson;
 import org.leibnizcenter.xml.DomHelper;
-import org.leibnizcenter.xml.TerseJson;
 import org.junit.Assert;
 import org.junit.Test;
+import org.leibnizcenter.xml.NotImplemented;
+import org.leibnizcenter.xml.TerseJson;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -14,7 +17,7 @@ import java.io.IOException;
  */
 public class TestDocument {
     @Test
-    public void test() throws IOException, SAXException, ParserConfigurationException {
+    public void test() throws IOException, SAXException, ParserConfigurationException, NotImplemented {
         Document doc = DomHelper.parse("<!-- This is a comment --><root><firstElement/><secondElement/></root>");
 
         Object[] terseDoc = (Object[]) new TerseJson().convert(doc);

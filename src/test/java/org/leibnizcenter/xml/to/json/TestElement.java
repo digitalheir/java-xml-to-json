@@ -1,7 +1,10 @@
+package org.leibnizcenter.xml.to.json;
+
 import org.leibnizcenter.xml.DomHelper;
-import org.leibnizcenter.xml.TerseJson;
 import org.junit.Assert;
 import org.junit.Test;
+import org.leibnizcenter.xml.NotImplemented;
+import org.leibnizcenter.xml.TerseJson;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -13,25 +16,27 @@ import java.io.IOException;
  */
 public class TestElement {
     @Test
-    public void test() throws IOException, SAXException, ParserConfigurationException {
+    public void test() throws IOException, SAXException, ParserConfigurationException,NotImplemented {
         Document doc = DomHelper.parse(
                 "<el>" +
-                "  <el/>" +
-                "  <el attrKey=\"attrValue\"/>" +
-                "  <el attrKey=\"attrValue\"><child/></el>" +
-                "  <el><child/></el>" +
-                "</el>");
+                        "  <el/>" +
+                        "  <el attrKey=\"attrValue\"/>" +
+                        "  <el attrKey=\"attrValue\"><child/></el>" +
+                        "  <el><child/></el>" +
+                        "</el>");
 
-        Object[] terseDoc = (Object[]) new TerseJson(TerseJson.WhiteSpace.Ignore).convert(doc);
+        TerseJson.Options opts = new TerseJson.Options().setWhitespaceBehaviour(
+                TerseJson.WhitespaceBehaviour.Ignore);
+        Object[] terseDoc = (Object[]) new TerseJson((opts)).convert(doc);
         Assert.assertEquals(terseDoc.length, 2);
         Assert.assertEquals(terseDoc[0], (short) 9);
 
         Object[] children = (Object[]) terseDoc[1];
         Assert.assertEquals(children.length, 1);
 
-        children = ((Object[]) ((Object[])children[0])[2]);
+        children = ((Object[]) ((Object[]) children[0])[2]);
 
-        Assert.assertEquals(((Object[]) children[0])[0], (short)1);
+        Assert.assertEquals(((Object[]) children[0])[0], (short) 1);
         Assert.assertEquals(((Object[]) children[0]).length, 2);
         Assert.assertEquals(((Object[]) children[1]).length, 4);
         Assert.assertEquals(((Object[]) children[2]).length, 4);
