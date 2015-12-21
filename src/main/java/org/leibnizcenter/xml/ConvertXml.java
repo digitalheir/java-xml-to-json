@@ -14,48 +14,7 @@ class ConvertXml {
 
 
     public static Object[] entity(org.w3c.dom.Entity e) {
-        /**
-         * The public identifier associated with the entity if specified, and
-         * <code>null</code> otherwise.
-         */
-        String pubId = e.getPublicId();
 
-        /**
-         * The system identifier associated with the entity if specified, and
-         * <code>null</code> otherwise. This may be an absolute URI or not.
-         */
-        String sysId = e.getSystemId();
-
-        /**
-         * For unparsed entities, the name of the notation for the entity. For
-         * parsed entities, this is <code>null</code>.
-         */
-        String notName = e.getNotationName();
-
-        /**
-         * An attribute specifying the encoding used for this entity at the time
-         * of parsing, when it is an external parsed entity. This is
-         * <code>null</code> if it an entity from the internal subset or if it
-         * is not known.
-         * @since DOM Level 3
-         */
-        String inpEnc = e.getInputEncoding();
-
-        /**
-         * An attribute specifying, as part of the text declaration, the encoding
-         * of this entity, when it is an external parsed entity. This is
-         * <code>null</code> otherwise.
-         * @since DOM Level 3
-         */
-        String xmlEnc = e.getXmlEncoding();
-
-        /**
-         * An attribute specifying, as part of the text declaration, the version
-         * number of this entity, when it is an external parsed entity. This is
-         * <code>null</code> otherwise.
-         * @since DOM Level 3
-         */
-        String xmlVersion = e.getXmlVersion();
         return new String[]{e.getNodeName(), e.getNodeValue()};
     }
 
