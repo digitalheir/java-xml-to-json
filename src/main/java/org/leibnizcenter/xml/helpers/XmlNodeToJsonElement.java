@@ -1,20 +1,17 @@
-package org.leibnizcenter.xml;
+package org.leibnizcenter.xml.helpers;
 
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Created by maarten on 21-12-15.
  */
-class ConvertXml {
-    private ConvertXml() {
+public class XmlNodeToJsonElement {
+    private XmlNodeToJsonElement() {
         throw new IllegalStateException();
     }
 
-
     public static Object[] entity(org.w3c.dom.Entity e) {
-
         return new String[]{e.getNodeName(), e.getNodeValue()};
     }
 
@@ -34,7 +31,7 @@ class ConvertXml {
      * that are defined for the document, and little else because the effect of namespaces and
      * the various XML schema efforts on DTD representation are not clearly understood as of
      * this writing.
-     *
+     * <p>
      * DOM Level 3 doesn't support editing DocumentType nodes. DocumentType nodes are read-only.
      */
     public static Object documentType(DocumentType dtd, String[][] entities, String[][] notations) {

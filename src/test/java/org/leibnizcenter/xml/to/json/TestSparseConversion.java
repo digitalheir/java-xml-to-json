@@ -1,10 +1,10 @@
 package org.leibnizcenter.xml.to.json;
 
-import org.leibnizcenter.xml.DomHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.leibnizcenter.xml.NotImplemented;
 import org.leibnizcenter.xml.TerseJson;
+import org.leibnizcenter.xml.helpers.DomHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +16,11 @@ import java.io.InputStream;
  * Created by Maarten on 18/11/2015.
  */
 public class TestSparseConversion {
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
     @Test
     public void testGeneral() throws IOException, SAXException, ParserConfigurationException, NotImplemented {
         InputStream is = TestSparseConversion.class.getClassLoader().getResourceAsStream("test.xml");
@@ -46,11 +51,6 @@ public class TestSparseConversion {
         ).convert(DomHelper.parse(is));
 
         System.out.println(jsonNode);
-    }
-
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 }
 

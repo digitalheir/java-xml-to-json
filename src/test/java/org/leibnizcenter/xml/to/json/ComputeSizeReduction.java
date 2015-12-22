@@ -1,9 +1,9 @@
 package org.leibnizcenter.xml.to.json;
 
 import com.google.gson.Gson;
-import org.leibnizcenter.xml.DomHelper;
 import org.leibnizcenter.xml.NotImplemented;
 import org.leibnizcenter.xml.TerseJson;
+import org.leibnizcenter.xml.helpers.DomHelper;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

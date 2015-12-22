@@ -1,4 +1,4 @@
-package org.leibnizcenter.xml;
+package org.leibnizcenter.xml.helpers;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

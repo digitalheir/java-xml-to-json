@@ -2,9 +2,10 @@ package org.leibnizcenter.xml;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import org.apache.xerces.dom.DocumentImpl;
+import com.google.gson.stream.JsonToken;
+import org.apache.xerces.dom.*;
+import org.leibnizcenter.xml.helpers.XmlNodeToJsonElement;
 import org.w3c.dom.*;
-import org.w3c.dom.Entity;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +24,136 @@ public class TerseJson {
 
     public TerseJson(Options options) {
         this.options = options;
+    }
+
+    /**
+     * First element must be a document node or element node
+     *
+     * @param reader JSON stream
+     * @return XML document
+     */
+    public static Document parse(JsonReader reader) throws IOException, NotImplemented {
+        reader.beginArray();
+        int nodeType = reader.nextInt();
+
+
+        CoreDocumentImpl doc = new DocumentImpl();
+
+        if (nodeType == Node.ELEMENT_NODE) {
+            addInitialElement(reader, doc);
+        } else if (nodeType == Node.DOCUMENT_NODE) {
+            addInitialDocNode(doc, reader);
+        } else {
+            throw new IllegalStateException("Don't know how to handle root node with type " + nodeType);
+        }
+        return doc;
+    }
+
+    protected static void addInitialElement(JsonReader reader, CoreDocumentImpl doc) throws IOException, NotImplemented {
+        // [nodeType,tagName[,children,[attributes]]
+        String tagName = reader.nextString();
+        Element e = new ElementImpl(doc, tagName);
+        doc.appendChild(e);
+        if (!reader.peek().equals(JsonToken.END_ARRAY)) {
+            setChildren(doc, reader, e);
+            if (!reader.peek().equals(JsonToken.END_ARRAY)) {
+                setAttributes(reader, e);
+            }
+        }
+    }
+
+    protected static void addInitialDocNode(CoreDocumentImpl doc, JsonReader reader) throws IOException, NotImplemented {
+        reader.beginArray(); // Children nodes
+
+        while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+            Node child = parseNextNode(
+                    doc, reader
+            );
+            doc.appendChild(child);
+        }
+        reader.endArray();
+    }
+
+    public static Node parseNextNode(CoreDocumentImpl doc, JsonReader reader) throws IOException, NotImplemented {
+        if (reader.peek().equals(JsonToken.STRING)) {
+            return doc.createTextNode(reader.nextString());
+        } else {
+            reader.beginArray();
+
+            int nodeType = reader.nextInt();
+            Node node;
+            switch (nodeType) {
+                case Node.CDATA_SECTION_NODE:
+                    // [nodeType, nodeVal]
+                    String data = reader.nextString();
+                    node = new CDATASectionImpl(doc, data);
+                    break;
+                case Node.COMMENT_NODE:
+                    // [nodeType, nodeVal]
+                    String comment = reader.nextString();
+                    node = new CommentImpl(doc, comment);
+                    break;
+                case Node.PROCESSING_INSTRUCTION_NODE:
+                    // [nodeType, nodeTarget,nodeVal]
+                    String target = reader.nextString();
+                    String val = reader.nextString();
+                    node = new ProcessingInstructionImpl(doc, target, val);
+                    break;
+                case Node.TEXT_NODE:
+                    // Return just the string
+                    node = new TextImpl(doc, reader.nextString());
+                    break;
+                case Node.DOCUMENT_NODE:
+                    // [nodeType, nodeChildren]
+                case Node.ATTRIBUTE_NODE:
+                    // [key, value]
+                case Node.DOCUMENT_FRAGMENT_NODE: // XML doc without root node
+                    throw new IllegalStateException();
+                case Node.ELEMENT_NODE:
+                    // [nodeType,tagName[,children,[attributes]]
+                    String tagName = reader.nextString();
+                    Element e = new ElementImpl(doc, tagName);
+                    node = e;
+                    if (!reader.peek().equals(JsonToken.END_ARRAY)) {
+                        setChildren(doc, reader, e);
+                        if (!reader.peek().equals(JsonToken.END_ARRAY)) {
+                            setAttributes(reader, e);
+                        }
+                    }
+                    break;
+                case Node.DOCUMENT_TYPE_NODE:
+                case Node.NOTATION_NODE:
+                case Node.ENTITY_NODE:
+                case Node.ENTITY_REFERENCE_NODE:
+                    //todo
+                    // [nodeType,tagName[,attributes,[children]]
+                default:
+                    throw new NotImplemented();
+            }
+            reader.endArray();
+            return node;
+        }
+    }
+
+    protected static void setChildren(CoreDocumentImpl doc, JsonReader reader, Element e) throws IOException, NotImplemented {
+        //Children
+        reader.beginArray();
+        while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+            e.appendChild(parseNextNode(doc, reader));
+        }
+        reader.endArray();
+    }
+
+    protected static void setAttributes(JsonReader reader, Element e) throws IOException {
+        reader.beginArray();
+        while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+            reader.beginArray();
+            String key = reader.nextString();
+            String value = reader.nextString();
+            e.setAttribute(key, value);
+            reader.endArray();
+        }
+        reader.endArray();
     }
 
     protected Object[] getChildren(Node n) throws NotImplemented {
@@ -83,7 +214,7 @@ public class TerseJson {
         JsonReader reader = null;
         try {
             reader = new JsonReader(new InputStreamReader(json, "utf-8"));
-            return ConvertJson.parse(reader);
+            return parse(reader);
         } catch (UnsupportedEncodingException e) {
             throw new IllegalStateException(e);
         } finally {
@@ -120,13 +251,13 @@ public class TerseJson {
                 // [key, value]
                 return new String[]{n.getNodeName(), getNodeValue(n)};
             case Node.ENTITY_NODE:
-                return ConvertXml.entity((Entity) n);
+                return XmlNodeToJsonElement.entity((Entity) n);
             case Node.ELEMENT_NODE:
                 // [nodeType,tagName[,attributes,[children]]
                 Object[] attrs = getAttributes(n);
                 Object[] children = getChildren(n);
 
-                return ConvertXml.element((Element) n, attrs, children);
+                return XmlNodeToJsonElement.element((Element) n, attrs, children);
             case Node.DOCUMENT_FRAGMENT_NODE: // XML doc without root node
                 // [nodeType,[children]]
                 return new Object[]{n.getNodeType(), getChildren(n)};//TODO create test
@@ -135,7 +266,7 @@ public class TerseJson {
                 DocumentType dtd = (DocumentType) n;
                 String[][] entities = convertNamedNodeMap(dtd.getEntities());
                 String[][] notations = convertNamedNodeMap(dtd.getNotations());
-                return ConvertXml.documentType(dtd, entities, notations);
+                return XmlNodeToJsonElement.documentType(dtd, entities, notations);
             case Node.NOTATION_NODE:
             case Node.ENTITY_REFERENCE_NODE:
                 //todo
@@ -187,7 +318,6 @@ public class TerseJson {
         return attributes;
     }
 
-
     public enum WhitespaceBehaviour {
         Preserve, Compact, Ignore
     }
@@ -201,6 +331,14 @@ public class TerseJson {
         public ErrorBehaviour errorBehaviour = ErrorBehaviour.ThrowAllErrors;
 
         public Options() {
+        }
+
+        public static Options with(WhitespaceBehaviour compactWhiteSpace) {
+            return new Options().setWhitespaceBehaviour(compactWhiteSpace);
+        }
+
+        public static Options with(ErrorBehaviour e) {
+            return new Options().setErrorBehaviour(e);
         }
 
         public Options setErrorBehaviour(ErrorBehaviour errorBehaviour) {
@@ -219,14 +357,6 @@ public class TerseJson {
 
         public Options and(ErrorBehaviour errorBehaviour) {
             return setErrorBehaviour(errorBehaviour);
-        }
-
-        public static Options with(WhitespaceBehaviour compactWhiteSpace) {
-            return new Options().setWhitespaceBehaviour(compactWhiteSpace);
-        }
-
-        public static Options with(ErrorBehaviour e) {
-            return new Options().setErrorBehaviour(e);
         }
     }
 
