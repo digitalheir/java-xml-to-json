@@ -5,7 +5,7 @@
 
     <groupId>org.leibnizcenter</groupId>
     <artifactId>xml-to-json</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
 
     <licenses>
         <license>

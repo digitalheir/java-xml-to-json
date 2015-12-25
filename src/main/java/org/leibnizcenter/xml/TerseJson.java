@@ -46,6 +46,7 @@ public class TerseJson {
         } else {
             throw new IllegalStateException("Don't know how to handle root node with type " + nodeType);
         }
+        reader.endArray();
         return doc;
     }
 

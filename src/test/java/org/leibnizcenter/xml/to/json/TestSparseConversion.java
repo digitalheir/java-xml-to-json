@@ -29,6 +29,7 @@ public class TestSparseConversion {
                 opts).convert(DomHelper.parse(is));
 //        System.out.println(jsonNode);
         Assert.assertEquals(jsonNode[0], (short) 9);
+        //noinspection AssertEqualsBetweenInconvertibleTypes
         Assert.assertEquals(((Object[]) ((Object[]) jsonNode[1])[0])[0], (short) 1);
         Assert.assertEquals(((Object[]) ((Object[]) jsonNode[1])[0])[1], "myRoot");
         Assert.assertEquals((((Object[]) ((Object[]) ((Object[]) jsonNode[1])[0])[2]).length), 6);
