@@ -29,9 +29,6 @@ or Gradle:
 compile 'org.leibnizcenter:xml-to-json:0.9.1'
 ```
 
-## Installation
-
-
 ## Motivation
 There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
 The problem with most XML-to-JSON implementations is that we lose a lot of information about ordering / attributes / whatever.
