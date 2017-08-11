@@ -9,7 +9,7 @@ This is a project to convert XML documents to JSON. It does this by taking a dis
  but entity references are unpacked, i.e., `&lt;` in XML becomes `<` in JSON. 
 
 ## JavaDoc
-JavaDoc is available at http://phil.uu.nl/~trompper/xml-to-json-0.9.1-javadoc/
+JavaDoc is available at https://digitalheir.github.io/java-xml-to-json/
 
 ## Usage
 Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releases/latest) or grab from Maven:
@@ -19,14 +19,14 @@ Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releas
         <dependency>
             <groupId>org.leibnizcenter</groupId>
             <artifactId>xml-to-json</artifactId>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
         </dependency>
 </dependencies>
 ```
 
 or Gradle:
 ```groovy
-compile 'org.leibnizcenter:xml-to-json:0.9.1'
+compile 'org.leibnizcenter:xml-to-json:0.9.2'
 ```
 
 ## Motivation
