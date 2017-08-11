@@ -8,8 +8,14 @@ This is a project to convert XML documents to JSON. It does this by taking a dis
  DTDs are experimentally supported (a node will be created for them), 
  but entity references are unpacked, i.e., `&lt;` in XML becomes `<` in JSON. 
 
-## JavaDoc
-JavaDoc is available at https://digitalheir.github.io/java-xml-to-json/
+## Motivation
+There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
+The problem with most XML-to-JSON implementations is that we lose a lot of information about ordering / attributes / whatever.
+
+Another motivation was to have a light-weight serialization of XML, since complete transforms 
+[tend to be wordy](https://github.com/digitalheir/ruby-xml-to-json). We 
+trade off  some readability for a reduction in bytes. Resulting JSON strings are typically slightly larger in bytesize 
+than their XML brothers.
 
 ## Usage
 Download [the latest JAR](https://github.com/digitalheir/java-xml-to-json/releases/latest) or grab from Maven:
@@ -29,16 +35,6 @@ or Gradle:
 compile 'org.leibnizcenter:xml-to-json:0.9.2'
 ```
 
-## Motivation
-There are a bunch of libraries out there that convert, most notably in [`org.json.XML`](http://www.json.org/javadoc/org/json/XML.html). 
-The problem with most XML-to-JSON implementations is that we lose a lot of information about ordering / attributes / whatever.
-
-Another motivation was to have a light-weight serialization of XML, since complete transforms 
-[tend to be wordy](https://github.com/digitalheir/ruby-xml-to-json). We 
-trade off  some readability for a reduction in bytes. Resulting JSON strings are typically slightly larger in bytesize 
-than their XML brothers.
-
-## Usage
 ```java
 import com.google.gson.Gson;
 import org.leibnizcenter.xml.helpers.DomHelper;
@@ -84,6 +80,9 @@ produces
 ```
 
 ## Details
+
+### JavaDoc
+JavaDoc is available at https://digitalheir.github.io/java-xml-to-json/
 
 ### Node types
 ```json
