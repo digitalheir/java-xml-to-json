@@ -1,5 +1,5 @@
 # XML to terse JSON
-[![GitHub version](https://badge.fury.io/gh/digitalheir%2Fjava-xml-to-json.svg)](http://badge.fury.io/gh/digitalheir%2Fjava-xml-to-json)
+[![GitHub version](https://badge.fury.io/gh/digitalheir%2Fjava-xml-to-json.svg)](https://github.com/digitalheir/java-xml-to-json/releases/latest)
 [![Build Status](https://travis-ci.org/digitalheir/java-xml-to-json.svg?branch=master)](https://travis-ci.org/digitalheir/java-xml-to-json)
 
 This is a project to convert XML documents to JSON. It does this by taking a disciplined approach
