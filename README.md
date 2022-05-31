@@ -105,19 +105,19 @@ var nodeTypes = {
 ### Utility functions
 ```js
 var getChildren = function (node) {
-    if (node[0].match(/element|document/){
+    if (node[0].match(/element|document/) {
         return node[1];
-    }else {
+    } else {
         return undefined;
     }
 };
 
-var getName = function (node){
+var getName = function (node) {
     if (node[0].match(/element/)){
       return node[2];
-    }else if(typeof node[0]=="string"){
+    } else if(typeof node[0]==="string"){
         return node[0];
-    }else{
+    } else{
         return undefined;
     }
 }
